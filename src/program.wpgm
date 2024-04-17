@@ -1,0 +1,37 @@
+import wollok.game.*
+import auto.*
+
+program miPrimerWollokGame {
+	// límites del tablero de juego
+	game.width(20)
+	game.height(20)
+
+	// fondo del tablero de juego
+	game.boardGround("empedrado.jpg")
+
+	// agregamos a nuestro objeto auto
+	game.addVisual(auto)
+	
+	// Titulo del juego
+	game.title("Las fantabulosas cocheaventuras")
+
+	// Movimiento
+	keyboard.right().onPressDo { auto.moverDerecha(1) }
+	keyboard.left().onPressDo { auto.moverIzquierda(1) }
+	keyboard.up().onPressDo { auto.moverArriba(1) }
+	keyboard.down().onPressDo { auto.moverAbajo(1) }
+	
+	// Dinamita
+	game.addVisual(dinamita)
+	
+	// colision
+	game.onCollideDo(auto, {elemento => 
+		game.say(auto, "uy choque")
+		auto.sonidoExplosion()
+		auto.image("cocheRoto.png")
+		game.removeVisual(dinamita)
+	})
+	
+	// que arranque el juego!
+	game.start()
+}
